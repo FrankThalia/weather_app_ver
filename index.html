@@ -18,6 +18,25 @@
     <div class="container">
       <div class="body">
         <div class="weather-body">
+          <form id="search-form" class="mb-3">
+            <div class="row">
+              <div class="col-9">
+                <input
+                  type="search"
+                  placeholder="Type a city..."
+                  class="form-control"
+                  id="city-input"
+                />
+              </div>
+              <div class="col-3">
+                <input
+                  type="submit"
+                  value="Search"
+                  class="btn btn-primary w-100"
+                />
+              </div>
+            </div>
+          </form>
           <div class="overview">
             <ul>
               <h1 id="city"></h1>
@@ -43,10 +62,12 @@
             </div>
           </div>
         </div>
-        <a href="https://github.com/FrankThalia/weather_app_ver.git"
-          >Open-sourse code</a
-        >
-        by Kseniia Okorokova
+        <small>
+          <a href="https://github.com/FrankThalia/weather_app_ver.git"
+            >Open-sourse code</a
+          >
+          by Kseniia Okorokova
+        </small>
       </div>
     </div>
     <script src="src/script.js"></script>

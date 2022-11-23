@@ -55,6 +55,23 @@ a {
   text-decoration: none;
 }
 
+.weather-forecast {
+  margin-top: 20px;
+  text-align: center;
+  color: #878787;
+}
+
+.forecast-date {
+  font-size: 16px;
+}
+.forecast-temp {
+  font-size: 13px;
+}
+
+.forecast-temp-max {
+  color: #212121;
+}
+
 .units {
   position: relative;
   font-size: 16px;

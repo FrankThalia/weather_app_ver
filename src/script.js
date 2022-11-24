@@ -44,6 +44,15 @@ function displayTemperature(response) {
     `http://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`
   );
   iconElement.setAttribute("alt", response.data.weather[0].description);
+
+  getForecast(response.data.coord);
+}
+
+function getForecast(coordinates) {
+  console.log(coordinates);
+  let apiKey = "72bb9dab46b9ec3d65f423c63f27a9b8";
+  let apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${apiKey}&units=metric`;
+  axios.get(apiUrl).then(displayForecast);
 }
 
 function search(city) {
@@ -75,28 +84,44 @@ function showCelsiusTemp(event) {
   temperatureElement.innerHTML = Math.round(celsiusTemp);
 }
 
-function displayForecast() {
+function formatDay(timestamp) {
+  let date = new Date(timestamp * 1000);
+  let day = date.getDay();
+  let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  return days[day];
+}
+
+function displayForecast(response) {
+  let forecast = response.data.daily;
   let forecastElement = document.querySelector("#forecast");
 
   let forecastHTML = `<div class="row">`;
-  let days = ["Thu", "Fri", "Sat", "Sun", "Mon", "Tue", "Wed"];
-  days.forEach(function (day) {
-    forecastHTML =
-      forecastHTML +
-      `
+
+  forecast.forEach(function (forecastDay, index) {
+    if (index < 6) {
+      forecastHTML =
+        forecastHTML +
+        `
                 <div class="col-2">
-                  <div class="forecast-date">${day}</div>
+                  <div class="forecast-date">${formatDay(forecastDay.dt)}</div>
                   <img
-                    src="http://openweathermap.org/img/wn/01d@2x.png"
+                    src="https://openweathermap.org/img/wn/${
+                      forecastDay.weather[0].icon
+                    }@2x.png"
                     alt=""
                     width="42"
                   />
                   <div class="forecast-temp">
-                    <span class="forecast-temp-max">19°</span>
-                    <span class="forecast-temp-min">12°</span>
+                    <span class="forecast-temp-max">${Math.round(
+                      forecastDay.temp.max
+                    )}°</span>
+                    <span class="forecast-temp-min">${Math.round(
+                      forecastDay.temp.min
+                    )}°</span>
                   </div>
                 </div>
               `;
+    }
   });
 
   forecastHTML = forecastHTML + `</div>`;
@@ -114,5 +139,4 @@ celsiusLink.addEventListener("click", showCelsiusTemp);
 let form = document.querySelector("#search-form");
 form.addEventListener("submit", handleSubmit);
 
-displayForecast();
 search("New York");
